@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz Cumpleaños!</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #1a1a2e; /* Fondo oscuro */
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+        .card {
+            background-color: #16213e;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            text-align: center;
+            max-width: 400px;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: scale(1.02);
+        }
+        h1 {
+            color: #e94560; /* Color de acento */
+        }
+        #mensaje-secreto {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+        button {
+            background-color: #0f3460;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #e94560;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>¡Feliz Cumpleaños, Hermano! 🎉</h1>
+        <p>Espero que tengas un día increíble.</p>
+        <button onclick="revelarMensaje()">Tengo una sorpresa para ti...</button>
+        
+        <div id="mensaje-secreto">
+            <p>Aquí puedes escribir todo lo que quieras decirle. Recordarle alguna anécdota graciosa, un chiste o simplemente desearle lo mejor.</p>
+            <p>¡Pásala genial!</p>
+        </div>
+    </div>
+
+    <script>
+        function revelarMensaje() {
+            const mensaje = document.getElementById('mensaje-secreto');
+            const boton = document.querySelector('button');
+            
+            if (mensaje.style.display === 'none' || mensaje.style.display === '') {
+                mensaje.style.display = 'block';
+                boton.textContent = '¡Felicidades!';
+            } else {
+                mensaje.style.display = 'none';
+                boton.textContent = 'Tengo una sorpresa para ti...';
+            }
+        }
+    </script>
+</body>
+</html>
