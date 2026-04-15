@@ -3,75 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Feliz Cumpleaños, Kev! 🎉</title>
+    <title>¡Feliz Cumpleaños, Kev! 🏆</title>
     
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
+        /* FONDO: Cancha de fútbol con CSS puro */
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #228B22; 
+            background-color: #1a6d1a; /* Verde césped más oscuro para que resalten las luces */
             background-image: 
                 linear-gradient(rgba(255, 255, 255, 0.1) 2px, transparent 2px), 
                 radial-gradient(circle at 50% 50%, rgba(255,255,255,0.7) 1px, transparent 1px);
             background-size: 100px 100px, 20px 20px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            overflow: hidden;
+            overflow: hidden; /* Evita que la página se mueva por las explosiones */
             position: relative;
         }
 
+        /* Líneas de la cancha (z-index bajo) */
         body::before {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 250px;
-            height: 250px;
-            border: 8px solid rgba(255, 255, 255, 0.5);
+            width: 250px; height: 250px;
+            border: 8px solid rgba(255, 255, 255, 0.4);
             border-radius: 50%;
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
         }
 
         body::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 50%;
+            top: 0; left: 50%;
             transform: translateX(-50%);
-            width: 8px;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.5);
+            width: 8px; height: 100%;
+            background-color: rgba(255, 255, 255, 0.4);
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
         }
 
+        /* Tarjeta principal (z-index alto para estar encima de los efectos) */
         .card {
-            background-color: rgba(26, 26, 46, 0.9);
+            background-color: rgba(26, 26, 46, 0.95); /* Menos transparente */
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
             text-align: center;
             max-width: 420px;
             transition: transform 0.3s ease;
             position: relative;
-            z-index: 10;
+            z-index: 10; /* Encima de la cancha y los fuegos */
             border: 3px solid #f1c40f;
         }
 
+        /* Título del campeón */
         h1 {
             color: #f1c40f;
             margin-top: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+            font-size: 2.3rem;
         }
 
-        p { color: #ecf0f1; }
+        p { color: #ecf0f1; font-size: 1.1rem; line-height: 1.4; }
 
+        /* Contenedor de iconos */
         .icon-container {
             display: flex;
             justify-content: center;
@@ -80,88 +82,145 @@
             font-size: 3rem;
         }
 
+        /* Icono de Trofeo con animación */
         .trophy-icon {
             color: #f1c40f;
             animation: pulsate 2s infinite ease-in-out;
         }
 
+        /* Icono de Balón */
+        .ball-icon { color: #ecf0f1; font-size: 2.5rem; align-self: flex-end; }
+
         @keyframes pulsate {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; text-shadow: 0 0 20px rgba(241, 196, 15, 0.8); }
+            100% { transform: scale(1); opacity: 0.8; }
         }
 
+        /* Mensaje secreto (z-index 10 por estar dentro de la card) */
         #mensaje-secreto {
             display: none;
             margin-top: 25px;
             background-color: rgba(255, 255, 255, 0.1);
-            padding: 15px;
+            padding: 20px;
             border-radius: 10px;
             border-left: 5px solid #f1c40f;
         }
 
+        #mensaje-secreto p { margin: 10px 0; font-weight: bold; }
+
+        /* Botón de acción - Verde Fútbol */
         button {
             background-color: #27ae60;
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 14px 28px;
             border-radius: 25px;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             margin-top: 25px;
+            transition: background-color 0.3s, transform 0.1s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            position: relative;
+            z-index: 11; /* Asegura que se pueda cliquear */
         }
+
+        button:hover { background-color: #2ecc71; transform: translateY(-3px); }
+
+        button:active { transform: translateY(1px); }
+
+        /* Pequeñas copas decorativas */
+        .small-trophy { font-size: 1.3rem; color: #f1c40f; vertical-align: middle; }
+
     </style>
 </head>
 <body>
 
-    <audio id="sonido-estadio" src="celebracion.mp3" preload="auto" loop></audio>
+    <audio id="sonido-estadio" src="./celebracion.mp3" preload="auto" loop></audio>
 
     <div class="card">
         <div class="icon-container">
-            <span>⚽</span>
+            <span class="ball-icon">⚽</span>
             <span class="trophy-icon">🏆</span>
-            <span>⚽</span>
+            <span class="ball-icon">⚽</span>
         </div>
         
-        <h1>¡Feliz Cumpleaños, Kev!</h1>
+        <h1>¡Feliz Cumpleaños, Kev! <span class="small-trophy">🏆</span></h1>
         <p>¡Eres el MVP de la familia!</p>
-        <button onclick="revelarMensaje()">Abrir el Vestuario...</button>
+        <button onclick="revelarMensaje()">¡Comenzar Celebración!</button>
         
         <div id="mensaje-secreto">
-            <p><strong>¡Felicidades, Campeón!</strong></p>
-            <p>Que este año sea una temporada llena de goles y muchas alegrías.</p>
-            <p>¡Un fuerte abrazo de gol! 🎉⚽</p>
+            <p><strong>De: Tu Hermano ⚽</strong></p>
+            <p>¡Muchas felicidades en tu día! Que este nuevo año sea una temporada llena de goles, victorias y alegrías.</p>
+            <p>Espero que la pases increíble y que sigas levantando copas en todo lo que te propongas.</p>
+            <p>¡Un fuerte abrazo de gol! 🎉🎁⚽</p>
         </div>
     </div>
 
     <script>
         let intervalConfetti;
+        let intervalFuegos;
 
-        function lanzarLluvia() {
-            const duration = 15 * 1000;
-            const animationEnd = Date.now() + duration;
-            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+        // Función 1: Lluvia constante y abundante
+        function lanzarLluviaAbundante() {
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 5 }; /* zIndex 5 para que esté DETRÁS de la tarjeta */
 
             function randomInRange(min, max) {
               return Math.random() * (max - min) + min;
             }
 
-            // Disparos desde los lados para que parezca que llueve en toda la pantalla
+            // Disparos desde arriba, más frecuentes y con más papelitos
             intervalConfetti = setInterval(function() {
+              // Ráfaga Lado Izquierdo
               confetti({
                 ...defaults,
-                particleCount: 40,
-                origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-                colors: ['#27ae60', '#f1c40f', '#ffffff']
+                particleCount: 60, /* Aumenté de 40 a 60 */
+                origin: { x: randomInRange(0.1, 0.4), y: Math.random() - 0.3 }, /* Un poco más centrado hacia arriba */
+                colors: ['#27ae60', '#f1c40f', '#ffffff'] /* Verde, Dorado, Blanco */
               });
+              // Ráfaga Lado Derecho
               confetti({
                 ...defaults,
-                particleCount: 40,
-                origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+                particleCount: 60, /* Aumenté de 40 a 60 */
+                origin: { x: randomInRange(0.6, 0.9), y: Math.random() - 0.3 },
                 colors: ['#27ae60', '#f1c40f', '#ffffff']
               });
-            }, 500); // Se repite cada medio segundo
+            }, 400); // Se repite cada 400ms (antes 500ms)
+        }
+
+        // Función 2: Explosiones intermitentes que imitan fuegos artificiales
+        function lanzarFuegosArtificiales() {
+            const duration = 15 * 1000; // Duración de los disparos rápidos iniciales
+            const animationEnd = Date.now() + duration;
+            
+            // Intervalo para explosiones aleatorias constantes
+            intervalFuegos = setInterval(function() {
+                // Configuración de explosión concentrada (Fuegos)
+                const fireworkDefaults = {
+                    particleCount: 100, // Muchos papelitos en un punto
+                    startVelocity: 45, // Alta velocidad inicial
+                    spread: 180, // Explosión en semicírculo
+                    gravity: 1.2, // Caen rápido
+                    drift: 0.1, // Se mueven un poco de lado
+                    scalar: 1,
+                    zIndex: 5, /* DETRÁS de la tarjeta */
+                    colors: ['#ffd700', '#ffc107', '#ffffff', '#e67e22'] // Mix de dorados brillantes y blanco
+                };
+
+                function randomInRange(min, max) {
+                    return Math.random() * (max - min) + min;
+                }
+
+                // Dispara en un punto aleatorio arriba de la tarjeta
+                confetti({
+                    ...fireworkDefaults,
+                    origin: { x: randomInRange(0.15, 0.85), y: randomInRange(0.2, 0.5) } 
+                });
+
+            }, 1000); // Una explosión grande cada segundo
         }
 
         function revelarMensaje() {
@@ -170,15 +229,25 @@
             const sonido = document.getElementById('sonido-estadio');
             
             if (mensaje.style.display === 'none' || mensaje.style.display === '') {
+                // --- ACTIVAR CELEBRACIÓN ---
                 mensaje.style.display = 'block';
                 boton.textContent = '¡Felicidades!';
-                sonido.play();
-                lanzarLluvia(); // Inicia la lluvia constante
+                
+                // Asegúrate de que el audio cargue `./celebracion.mp3`
+                sonido.play().catch(e => console.log("Error con el sonido:", e));
+
+                lanzarLluviaAbundante(); // Lluvia constante (Z-index 5, detrás card)
+                lanzarFuegosArtificiales(); // Explosiones (Z-index 5, detrás card)
+
             } else {
+                // --- DESACTIVAR CELEBRACIÓN ---
                 mensaje.style.display = 'none';
-                boton.textContent = 'Abrir el Vestuario...';
+                boton.textContent = '¡Comenzar Celebración!';
                 sonido.pause();
-                clearInterval(intervalConfetti); // Detiene la lluvia
+                
+                // Detener ambos intervalos
+                clearInterval(intervalConfetti); 
+                clearInterval(intervalFuegos);
             }
         }
     </script>
