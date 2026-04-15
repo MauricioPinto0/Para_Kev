@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>¡Feliz Cumpleaños, Kev! 🎉</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
         /* FONDO: Cancha de fútbol con CSS puro */
         body {
@@ -11,10 +14,10 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #228B22; /* Verde césped base */
+            background-color: #228B22; 
             background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.1) 2px, transparent 2px), /* Líneas horizontales césped */
-                radial-gradient(circle at 50% 50%, rgba(255,255,255,0.7) 1px, transparent 1px); /* Puntos */
+                linear-gradient(rgba(255, 255, 255, 0.1) 2px, transparent 2px), 
+                radial-gradient(circle at 50% 50%, rgba(255,255,255,0.7) 1px, transparent 1px);
             background-size: 100px 100px, 20px 20px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -22,7 +25,6 @@
             position: relative;
         }
 
-        /* Dibujo del círculo central de la cancha */
         body::before {
             content: '';
             position: absolute;
@@ -37,7 +39,6 @@
             z-index: 0;
         }
 
-        /* Dibujo de la línea media */
         body::after {
             content: '';
             position: absolute;
@@ -51,9 +52,8 @@
             z-index: 0;
         }
 
-        /* Tarjeta principal - Más transparente para ver el fondo */
         .card {
-            background-color: rgba(26, 26, 46, 0.9); /* Azul muy oscuro pero algo transparente */
+            background-color: rgba(26, 26, 46, 0.9);
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
@@ -61,29 +61,27 @@
             max-width: 420px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
-            z-index: 10; /* Encima de la cancha */
-            border: 3px solid #f1c40f; /* Borde dorado */
+            z-index: 10;
+            border: 3px solid #f1c40f;
         }
 
         .card:hover {
             transform: scale(1.03) translateY(-5px);
-            box-shadow: 0 20px 45px rgba(241, 196, 15, 0.3); /* Brillo dorado al hover */
+            box-shadow: 0 20px 45px rgba(241, 196, 15, 0.3);
         }
 
-        /* Título del campeón */
         h1 {
-            color: #f1c40f; /* Color Dorado Trofeo */
+            color: #f1c40f;
             margin-top: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             font-size: 2.2rem;
         }
 
         p {
-            color: #ecf0f1; /* Blanco suave */
+            color: #ecf0f1;
             font-size: 1.1rem;
         }
 
-        /* Contenedor de los iconos de trofeo */
         .icon-container {
             display: flex;
             justify-content: center;
@@ -92,20 +90,17 @@
             font-size: 3rem;
         }
 
-        /* Icono de Trofeo principal con animación */
         .trophy-icon {
-            color: #f1c40f; /* Dorado */
+            color: #f1c40f;
             animation: pulsate 2s infinite ease-in-out;
         }
 
-        /* Icono de Balón */
         .ball-icon {
-            color: #ecf0f1; /* Blanco */
+            color: #ecf0f1;
             font-size: 2.5rem;
             align-self: flex-end;
         }
 
-        /* Animación de pulso para los trofeos */
         @keyframes pulsate {
             0% { transform: scale(1); opacity: 0.8; }
             50% { transform: scale(1.1); opacity: 1; text-shadow: 0 0 15px rgba(241, 196, 15, 0.7); }
@@ -126,7 +121,6 @@
             line-height: 1.6;
         }
 
-        /* Botón de acción - Color Verde Fútbol */
         button {
             background-color: #27ae60;
             color: white;
@@ -152,16 +146,17 @@
             transform: translateY(1px);
         }
 
-        /* Pequeñas copas decorativas */
         .small-trophy {
             font-size: 1.2rem;
             color: #f1c40f;
             vertical-align: middle;
         }
-
     </style>
 </head>
 <body>
+
+    <audio id="sonido-estadio" src="celebracion.mp3" preload="auto"></audio>
+
     <div class="card">
         <div class="icon-container">
             <span class="ball-icon">⚽</span>
@@ -185,13 +180,30 @@
         function revelarMensaje() {
             const mensaje = document.getElementById('mensaje-secreto');
             const boton = document.querySelector('button');
+            const sonido = document.getElementById('sonido-estadio');
             
             if (mensaje.style.display === 'none' || mensaje.style.display === '') {
+                // Mostrar mensaje
                 mensaje.style.display = 'block';
                 boton.textContent = '¡A celebrar!';
+                
+                // 1. Reproducir el sonido
+                sonido.play();
+
+                // 2. Disparar el confeti
+                confetti({
+                    particleCount: 150, /* Cantidad de papelitos */
+                    spread: 100, /* Qué tan ancho explota */
+                    origin: { y: 0.6 }, /* Desde dónde sale (0.6 es un poco más abajo del centro) */
+                    colors: ['#27ae60', '#f1c40f', '#ffffff'] /* Verde, Dorado, Blanco */
+                });
+
             } else {
+                // Ocultar mensaje y pausar sonido si lo vuelve a presionar
                 mensaje.style.display = 'none';
                 boton.textContent = 'Abrir el Vestuario...';
+                sonido.pause();
+                sonido.currentTime = 0; // Regresa el audio al inicio
             }
         }
     </script>
